@@ -1,0 +1,48 @@
+#keyBoard {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  border: 0.3vh solid;
+  border-radius: 2px;
+  width: 99.7%;
+  height: 15vh;
+  padding: 0px;
+  margin: 0px;
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.white {
+  background-color: white;
+  border-right: 0.1vh solid;
+  height: 100%;
+  width: 8vh;
+}
+.white:active,
+.black:active {
+  background-color: #25a448;
+}
+.black {
+  position: relative;
+  margin: 0 0 0 -2.59vh;
+  background-color: black;
+  width: 3vh;
+  height: 60%;
+  left: 1.4vh;
+  z-index: 2;
+  padding-left: 0.8vh;
+  border-radius: 3px;
+}
+
+.white:last-child {
+  border-right: none;
+}
+
+.t {
+  padding-right: 0.5vh;
+}
