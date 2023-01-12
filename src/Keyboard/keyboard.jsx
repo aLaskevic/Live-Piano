@@ -1,14 +1,44 @@
 import "./keyboard.css";
+import ws from "../wsClient/socket";
 
 function Keyboard() {
   /*
    * Plays a note as audio
    * note : string -> represents a note as string
    */
-  function playNote(note) {
-    let path = "/notes/" + note + ".mp3";
-    var audio = new Audio("/notes/" + note + ".mp3");
-    audio.play();
+
+  ws.addEventListener("message", (message) => {
+    message.data.text().then((res) => {
+      const data = JSON.parse(res);
+      if (data.type == "playNote") {
+        console.log(data);
+        document.getElementById(data.note).classList.add("active");
+        const path = "/notes/" + data.note + ".mp3";
+        var audio = new Audio(path);
+        audio.play();
+      }
+    });
+  });
+
+  ws.addEventListener("message", (message) => {
+    message.data.text().then((res) => {
+      const data = JSON.parse(res);
+      if (data.type == "stopNote") {
+        document.getElementById(data.note).classList.remove("active");
+      }
+    });
+  });
+
+  function playNote(wnote) {
+    console.log("test");
+    if (ws.readyState == 1)
+      ws.send(JSON.stringify({ type: "playNote", note: wnote }));
+  }
+
+  function stopNote(wnote) {
+    console.log("stop: ", wnote);
+    if (ws.readyState == 1)
+      ws.send(JSON.stringify({ type: "stopNote", note: wnote }));
   }
 
   return (
@@ -16,16 +46,19 @@ function Keyboard() {
       <div id="keyBoard">
         <div
           className="white t"
+          id="C1"
           onMouseDown={() => {
             playNote("C1");
+          }}
+          onMouseUp={() => {
+            stopNote("C1");
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Db1");
-          }}
+          id="Db1"
+          onMouseDown={playNote("Db1")}
+          onMouseUp={stopNote("Db1")}
         ></div>
         <div
           className="white"
@@ -36,7 +69,7 @@ function Keyboard() {
         ></div>
         <div
           className="black"
-          id=""
+          id="Eb1"
           onMouseDown={() => {
             playNote("Eb1");
           }}
@@ -141,7 +174,6 @@ function Keyboard() {
         ></div>
         <div
           className="white"
-          id="D1"
           onMouseDown={() => {
             playNote("G2");
           }}
@@ -169,42 +201,36 @@ function Keyboard() {
         ></div>
         <div
           className="white"
-          id="F1"
           onMouseDown={() => {
             playNote("B2");
           }}
         ></div>
         <div
           className="white t"
-          id="G1"
           onMouseDown={() => {
             playNote("C3");
           }}
         ></div>
         <div
           className="black"
-          id=""
           onMouseDown={() => {
             playNote("Db3");
           }}
         ></div>
         <div
           className="white"
-          id="A1"
           onMouseDown={() => {
             playNote("D3");
           }}
         ></div>
         <div
           className="black"
-          id=""
           onMouseDown={() => {
             playNote("Eb3");
           }}
         ></div>
         <div
           className="white"
-          id="H1"
           onMouseDown={() => {
             playNote("E3");
           }}
@@ -218,14 +244,12 @@ function Keyboard() {
         ></div>
         <div
           className="black"
-          id=""
           onMouseDown={() => {
             playNote("Gb3");
           }}
         ></div>
         <div
           className="white"
-          id="D2"
           onMouseDown={() => {
             playNote("G3");
           }}

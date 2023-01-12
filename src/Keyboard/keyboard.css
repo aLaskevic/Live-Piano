@@ -4,7 +4,7 @@
   left: 0px;
   display: flex;
   border: 0.3vh solid;
-  border-radius: 2px;
+  border-radius: 0.2vh;
   width: 99.7%;
   height: 15vh;
   padding: 0px;
@@ -23,8 +23,7 @@
   height: 100%;
   width: 8vh;
 }
-.white:active,
-.black:active {
+.active {
   background-color: #25a448;
 }
 .black {
@@ -36,7 +35,7 @@
   left: 1.4vh;
   z-index: 2;
   padding-left: 0.8vh;
-  border-radius: 3px;
+  border-radius: 0.2vh;
 }
 
 .white:last-child {

@@ -28,6 +28,10 @@
   margin-bottom: 3vh;
 }
 
+.error {
+  color: lightcoral;
+}
+
 .title > div {
   font-weight: 400;
   font-size: 2vh;
