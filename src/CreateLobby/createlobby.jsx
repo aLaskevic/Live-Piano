@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import ws from "../wsClient/socket";
-import "./createLobby.css";
+import "./createlobby.css";
 
 function cLobby(props) {
   const [name, setName] = useState("");
