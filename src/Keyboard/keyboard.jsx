@@ -1,44 +1,44 @@
 import "./keyboard.css";
 import ws from "../wsClient/socket";
 
-function Keyboard() {
+function Keyboard(props) {
   /*
    * Plays a note as audio
    * note : string -> represents a note as string
    */
-
   ws.addEventListener("message", (message) => {
-    message.data.text().then((res) => {
-      const data = JSON.parse(res);
-      if (data.type == "playNote") {
-        console.log(data);
-        document.getElementById(data.note).classList.add("active");
-        const path = "/notes/" + data.note + ".mp3";
-        var audio = new Audio(path);
-        audio.play();
-      }
-    });
-  });
-
-  ws.addEventListener("message", (message) => {
-    message.data.text().then((res) => {
-      const data = JSON.parse(res);
-      if (data.type == "stopNote") {
-        document.getElementById(data.note).classList.remove("active");
-      }
-    });
+    const data = JSON.parse(message.data);
+    if (data.type == "playNote") {
+      document.getElementById(data.note).classList.add("active");
+      const path = "/notes/" + data.note + ".mp3";
+      var audio = new Audio(path);
+      audio.play();
+    }
+    if (data.type == "stopNote") {
+      document.getElementById(data.note).classList.remove("active");
+    }
   });
 
   function playNote(wnote) {
-    console.log("test");
     if (ws.readyState == 1)
-      ws.send(JSON.stringify({ type: "playNote", note: wnote }));
+      ws.send(
+        JSON.stringify({
+          type: "playNote",
+          note: wnote,
+          lobbyId: props.connection.lobbyId,
+        })
+      );
   }
 
   function stopNote(wnote) {
-    console.log("stop: ", wnote);
     if (ws.readyState == 1)
-      ws.send(JSON.stringify({ type: "stopNote", note: wnote }));
+      ws.send(
+        JSON.stringify({
+          type: "stopNote",
+          note: wnote,
+          lobbyId: props.connection.lobbyId,
+        })
+      );
   }
 
   return (
@@ -47,448 +47,661 @@ function Keyboard() {
         <div
           className="white t"
           id="C1"
-          onMouseDown={() => {
-            playNote("C1");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
           }}
-          onMouseUp={() => {
-            stopNote("C1");
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
           id="Db1"
-          onMouseDown={playNote("Db1")}
-          onMouseUp={stopNote("Db1")}
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
         ></div>
         <div
           className="white"
-          id="A0"
-          onMouseDown={() => {
-            playNote("D1");
+          id="D1"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
           id="Eb1"
-          onMouseDown={() => {
-            playNote("Eb1");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
           }}
-        ></div>
-        <div
-          className="white"
-          id="H0"
-          onMouseDown={() => {
-            playNote("E1");
-          }}
-        ></div>
-        <div
-          className="white t"
-          onMouseDown={() => {
-            playNote("F1");
-          }}
-        ></div>
-        <div
-          className="black"
-          onMouseDown={() => {
-            playNote("Gb1");
-          }}
-        ></div>
-        <div
-          className="white"
-          onMouseDown={() => {
-            playNote("G1");
-          }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Ab1");
-          }}
-        ></div>
-        <div
-          className="white"
-          onMouseDown={() => {
-            playNote("A1");
-          }}
-        ></div>
-        <div
-          className="black"
-          onMouseDown={() => {
-            playNote("Bb1");
-          }}
-        ></div>
-        <div
-          className="white"
-          onMouseDown={() => {
-            playNote("B1");
-          }}
-        ></div>
-        <div
-          className="white t"
-          onMouseDown={() => {
-            playNote("C2");
-          }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Db2");
-          }}
-        ></div>
-        <div
-          className="white"
-          id="A0"
-          onMouseDown={() => {
-            playNote("D2");
-          }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Eb2");
-          }}
-        ></div>
-        <div
-          className="white"
-          id="H0"
-          onMouseDown={() => {
-            playNote("E2");
-          }}
-        ></div>
-        <div
-          className="white t"
-          id="C1"
-          onMouseDown={() => {
-            playNote("F2");
-          }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Gb2");
-          }}
-        ></div>
-        <div
-          className="white"
-          onMouseDown={() => {
-            playNote("G2");
-          }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Ab2");
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="E1"
-          onMouseDown={() => {
-            playNote("A2");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
           }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Bb2");
-          }}
-        ></div>
-        <div
-          className="white"
-          onMouseDown={() => {
-            playNote("B2");
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white t"
-          onMouseDown={() => {
-            playNote("C3");
+          id="F1"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          onMouseDown={() => {
-            playNote("Db3");
+          id="Gb1"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
-          onMouseDown={() => {
-            playNote("D3");
+          id="G1"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          onMouseDown={() => {
-            playNote("Eb3");
+          id="Ab1"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
-          onMouseDown={() => {
-            playNote("E3");
+          id="A1"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Bb1"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="B1"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white t"
           id="C2"
-          onMouseDown={() => {
-            playNote("F3");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          onMouseDown={() => {
-            playNote("Gb3");
+          id="Db2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
-          onMouseDown={() => {
-            playNote("G3");
+          id="D2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Ab3");
+          id="Eb2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="E2"
-          onMouseDown={() => {
-            playNote("A3");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
           }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Bb3");
-          }}
-        ></div>
-        <div
-          className="white"
-          id="F2"
-          onMouseDown={() => {
-            playNote("B3");
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white t"
-          id="G2"
-          onMouseDown={() => {
-            playNote("C4");
+          id="F2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Db4");
+          id="Gb2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="G2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Ab2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="A2"
-          onMouseDown={() => {
-            playNote("D4");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Eb4");
+          id="Bb2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
-          id="H2"
-          onMouseDown={() => {
-            playNote("E4");
+          id="B2"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white t"
           id="C3"
-          onMouseDown={() => {
-            playNote("F4");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Gb4");
+          id="Db3"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="D3"
-          onMouseDown={() => {
-            playNote("G4");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Ab4");
+          id="Eb3"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="E3"
-          onMouseDown={() => {
-            playNote("A4");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
           }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Bb4");
-          }}
-        ></div>
-        <div
-          className="white"
-          id="F3"
-          onMouseDown={() => {
-            playNote("B4");
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white t"
-          id="G3"
-          onMouseDown={() => {
-            playNote("C5");
+          id="F3"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Db5");
+          id="Gb3"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="G3"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Ab3"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="A3"
-          onMouseDown={() => {
-            playNote("D5");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Eb5");
+          id="Bb3"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
-          id="H3"
-          onMouseDown={() => {
-            playNote("E5");
+          id="B3"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white t"
           id="C4"
-          onMouseDown={() => {
-            playNote("F5");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Gb5");
+          id="Db4"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="D4"
-          onMouseDown={() => {
-            playNote("G5");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Ab5");
+          id="Eb4"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="E4"
-          onMouseDown={() => {
-            playNote("A5");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
           }}
-        ></div>
-        <div
-          className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Bb5");
-          }}
-        ></div>
-        <div
-          className="white"
-          id="F4"
-          onMouseDown={() => {
-            playNote("B5");
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white t"
-          id="G4"
-          onMouseDown={() => {
-            playNote("C6");
+          id="F4"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Db6");
+          id="Gb4"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="G4"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Ab4"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
           id="A4"
-          onMouseDown={() => {
-            playNote("D6");
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="black"
-          id=""
-          onMouseDown={() => {
-            playNote("Eb6");
+          id="Bb4"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white"
-          id="H4"
-          onMouseDown={() => {
-            playNote("E6");
+          id="B4"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
         <div
           className="white t"
-          onMouseDown={() => {
-            playNote("F6");
+          id="C5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Db5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="D5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Eb5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="E5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white t"
+          id="F5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Gb5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="G5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Ab5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="A5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Bb5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="B5"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white t"
+          id="C6"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Db6"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="D6"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="black"
+          id="Eb6"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white"
+          id="E6"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
+          }}
+        ></div>
+        <div
+          className="white t"
+          id="F6"
+          onMouseDown={(e) => {
+            playNote(e.target.id);
+          }}
+          onMouseUp={(e) => {
+            stopNote(e.target.id);
           }}
         ></div>
       </div>

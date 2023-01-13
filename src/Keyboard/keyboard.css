@@ -23,9 +23,6 @@
   height: 100%;
   width: 8vh;
 }
-.active {
-  background-color: #25a448;
-}
 .black {
   position: relative;
   margin: 0 0 0 -2.59vh;
@@ -37,7 +34,9 @@
   padding-left: 0.8vh;
   border-radius: 0.2vh;
 }
-
+.active {
+  background-color: #25a448;
+}
 .white:last-child {
   border-right: none;
 }
