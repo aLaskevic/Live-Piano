@@ -8,7 +8,7 @@ import JoinLobby from "../JoinLobby/joinlobby";
 function welcome() {
   const [connection, setConnection] = useState();
   const [createLobby, setcreateLobby] = useState(true);
-
+  console.log(connection);
   return (
     <>
       {createLobby
