@@ -1,0 +1,49 @@
+.input-text {
+  display: block;
+  font-size: 2vh;
+  color: #5a5a5a;
+  width: 25vh;
+  height: 4vh;
+  transition: border 0.2s;
+}
+#input-code {
+  position: relative;
+}
+.input-code_question {
+  position: absolute;
+  top: 0vh;
+  font-size: 4vh;
+  right: 3vh;
+  top: 1.2vh;
+  color: #939393;
+  font-size: 2.5vh;
+  transition: color 0.2s;
+}
+
+#container {
+  width: 30vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.input-code_question:hover {
+  color: #25a448;
+}
+
+.input-code_tooltip {
+  position: absolute;
+  opacity: 0;
+  background-color: #fafafa;
+  border-left: 1vh solid #25a448;
+  padding: 1.1vh;
+  top: 0vh;
+  visibility: hidden;
+  right: -34vh;
+  font-size: 1.5vh;
+  transition: opacity 0.2s, visibility 1.5s;
+}
+
+.input-code_question:hover ~ .input-code_tooltip {
+  opacity: 0.8;
+  visibility: visible;
+}

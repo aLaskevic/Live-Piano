@@ -1,5 +1,5 @@
 import "./keyboard.css";
-import ws from "../wsClient/socket";
+import ws from "../../wsClient/socket";
 
 function Keyboard(props) {
   /*
