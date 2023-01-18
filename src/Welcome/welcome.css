@@ -9,9 +9,6 @@
   padding-top: 15vh;
 }
 
-#home > form {
-}
-
 #Live {
   font-size: 3.5vh;
   padding-right: 1vh;
@@ -52,9 +49,11 @@
   outline: none;
   border: 0.3vh solid #25a448;
 }
-
-.copy-code {
+.room-information {
+  display: block;
   float: right;
+}
+.copy-code {
   text-align: right;
   font-size: 1.5vh;
   margin: 1vh;
@@ -71,6 +70,7 @@
   background-color: #25a448;
   color: white;
   padding: 1vh;
+  cursor: pointer;
   width: 4vh;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -112,4 +112,25 @@ button {
   margin-left: auto;
   margin-right: auto;
   margin-top: 1.3vh;
+}
+
+.user-list {
+  float: right;
+  margin-right: 0.9vh;
+}
+
+.user-list > div {
+  border-radius: 20vh;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  background-color: #df622c;
+  width: 2.8vh;
+  font-size: 2vh;
+  padding: 1vh;
+  margin-top: 0.8vh;
+}
+
+.user-list > div:hover {
+  background-color: #c45728;
 }

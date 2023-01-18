@@ -8,14 +8,25 @@ function Keyboard(props) {
    */
   ws.addEventListener("message", (message) => {
     const data = JSON.parse(message.data);
+    let color;
     if (data.type == "playNote") {
-      document.getElementById(data.note).classList.add("active");
+      for (let i = 0; i < props.userList.length; i++) {
+        if (props.userList[i].name == data.name) {
+          color = props.userList[i].color;
+        }
+      }
+
+      document.getElementById(data.note).style.backgroundColor = color;
       const path = "/notes/" + data.note + ".mp3";
       var audio = new Audio(path);
       audio.play();
     }
     if (data.type == "stopNote") {
-      document.getElementById(data.note).classList.remove("active");
+      const button = document.getElementById(data.note);
+      if (button.classList[0] == "white")
+        document.getElementById(data.note).style.backgroundColor = "white";
+      if (button.classList[0] == "black")
+        document.getElementById(data.note).style.backgroundColor = "black";
     }
   });
 
@@ -25,6 +36,7 @@ function Keyboard(props) {
         JSON.stringify({
           type: "playNote",
           note: wnote,
+          name: props.connection.name,
           lobbyId: props.connection.lobbyId,
         })
       );

@@ -96,39 +96,44 @@ wss.on("connection", (ws) => {
   });
 
   ws.on("close", () => {
-    let tempKey;
-    //iterate over all existing sessions
-    console.log(lobbies);
-    for (key in lobbies) {
-      //iterate over all connection in a sessions
-      for (let i = 0; i < lobbies[key].length; i++) {
-        //find the disconnected websocket and remove this connection from the List
-        if (lobbies[key][i].websocket == ws) {
-          tempKey = key;
-          lobbies[key].splice(i, 1);
-          break;
+    try {
+      let tempKey;
+      //iterate over all existing sessions
+      console.log(lobbies);
+
+      for (key in lobbies) {
+        //iterate over all connection in a sessions
+        for (let i = 0; i < lobbies[key].length; i++) {
+          //find the disconnected websocket and remove this connection from the List
+          if (lobbies[key][i].websocket == ws) {
+            tempKey = key;
+            lobbies[key].splice(i, 1);
+            break;
+          }
         }
       }
-    }
 
-    const userNames = [];
+      const userNames = [];
 
-    for (let i = 0; i < lobbies[tempKey].length; i++) {
-      userNames.push({
-        name: lobbies[tempKey][i].name,
-        color: fancyColors[i],
+      for (let i = 0; i < lobbies[tempKey].length; i++) {
+        userNames.push({
+          name: lobbies[tempKey][i].name,
+          color: fancyColors[i],
+        });
+      }
+      const userNamesMessage = { type: "newUser", userNames };
+
+      console.log(userNamesMessage);
+
+      lobbies[tempKey].forEach((userConnection) => {
+        userConnection.websocket.send(JSON.stringify(userNamesMessage));
       });
-    }
-    const userNamesMessage = { type: "newUser", userNames };
 
-    console.log(userNamesMessage);
-
-    lobbies[tempKey].forEach((userConnection) => {
-      userConnection.websocket.send(JSON.stringify(userNamesMessage));
-    });
-
-    if (lobbies[key].length == 0) {
-      delete lobbies[key];
+      if (lobbies[key].length == 0) {
+        delete lobbies[key];
+      }
+    } catch (error) {
+      console.log(error);
     }
   });
 });

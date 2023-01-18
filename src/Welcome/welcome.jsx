@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import "./welcome.css";
 import Keyboard from "../components/Keyboard/keyboard";
@@ -10,11 +10,10 @@ import { faCopy } from "@fortawesome/free-solid-svg-icons";
 function welcome() {
   const [connection, setConnection] = useState();
   const [createLobby, setcreateLobby] = useState(true);
-  const [userList, setUserList] = useState([{ name: "alex" }]);
+  const [userList, setUserList] = useState([]);
 
   return (
     <>
-      {console.log(userList)}
       {connection && (
         <div className="room-information">
           <div className="copy-code">
@@ -23,24 +22,38 @@ function welcome() {
               <FontAwesomeIcon icon={faCopy}></FontAwesomeIcon>
             </div>
           </div>
-          <div className="userList"></div>
+          <br></br>
+          <div className="user-list">
+            {userList.map((user) => {
+              return (
+                <div style={{ backgroundColor: user.color }}>
+                  {user.name.at(0).toUpperCase()}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
       {createLobby
         ? !connection && (
             <CreateLobby
               connection={setConnection}
-              userList={setUserList}
               display={setcreateLobby}
+              setUserList={setUserList}
             ></CreateLobby>
           )
         : !connection && (
             <JoinLobby
               connection={setConnection}
               display={setcreateLobby}
+              setUserList={setUserList}
             ></JoinLobby>
           )}
-      {connection ? <Keyboard connection={connection}></Keyboard> : ""}
+      {connection ? (
+        <Keyboard connection={connection} userList={userList}></Keyboard>
+      ) : (
+        ""
+      )}
     </>
   );
 }

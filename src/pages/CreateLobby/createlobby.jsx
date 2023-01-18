@@ -10,10 +10,12 @@ function cLobby(props) {
   ws.addEventListener("message", (message) => {
     const data = JSON.parse(message.data);
     if (data.type == "initLobby") {
+      console.log(data);
       props.connection(data);
-      props.userList((prev) => {
-        console.log(prev);
-      });
+    }
+
+    if (data.type == "newUser") {
+      props.setUserList(data.userNames);
     }
   });
 
@@ -25,7 +27,7 @@ function cLobby(props) {
     }
 
     if (ws.readyState != 1) {
-      setError("Es konnte keine Verbindung hergestellt werden!");
+      setError("Connection couldn't establish!");
       return;
     }
 
