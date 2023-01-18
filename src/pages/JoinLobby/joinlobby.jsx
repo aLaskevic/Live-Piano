@@ -15,6 +15,14 @@ function jLobby(props) {
     if (data.type == "joinLobby") {
       props.connection(data);
     }
+
+    if (data.type == "newUser") {
+      props.setUserList(data.userNames);
+    }
+
+    if (data.type == "quitUser") {
+      props.setUserList(data.userNames);
+    }
   });
 
   function joinLobby(e) {
@@ -25,7 +33,7 @@ function jLobby(props) {
       return;
     }
 
-    const connection = { type: "joinLobby", lobbyId: id };
+    const connection = { type: "joinLobby", lobbyId: id, name: name };
     ws.send(JSON.stringify(connection));
 
     setError("");
