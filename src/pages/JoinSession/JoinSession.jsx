@@ -1,7 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import ws from "../../wsClient/socket";
-import "./joinlobby.css";
+import "./JoinSession.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,31 +9,16 @@ function jLobby(props) {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
 
-  ws.addEventListener("message", (message) => {
-    const data = JSON.parse(message.data);
-    if (data.type == "joinLobby") {
-      props.connection(data);
-    }
-
-    if (data.type == "newUser") {
-      props.setUserList(data.userNames);
-    }
-
-    if (data.type == "quitUser") {
-      props.setUserList(data.userNames);
-    }
-  });
-
   function joinLobby(e) {
     e.preventDefault();
 
-    if (ws.readyState != 1) {
+    if (props.socket.readyState != 1) {
       setError("Es konnte keine Verbindung hergestellt werden!");
       return;
     }
 
-    const connection = { type: "joinLobby", lobbyId: id, name: name };
-    ws.send(JSON.stringify(connection));
+    const connection = { type: "joinLobby", sessionId: id, name: name };
+    props.socket.send(JSON.stringify(connection));
 
     setError("");
   }

@@ -1,19 +1,30 @@
 const { uuid } = require("uuidv4");
 const WebSocket = require("ws");
 
+const express = require("express");
+const app = express();
+const port = 3000;
+
 const wss = new WebSocket.Server({ port: 8083 });
 
-const lobbies = {};
+const sessions = {};
 const fancyColors = ["#6ff542", "#d442f5"];
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
 
 wss.on("connection", (ws) => {
   ws.on("message", (buffer) => {
     const messageString = buffer.toString();
     const data = JSON.parse(messageString);
-
     if (data.type == "playNote" || data.type == "stopNote") {
       try {
-        lobbies[data.lobbyId].forEach((connection) => {
+        sessions[data.sessionId].forEach((connection) => {
           connection.websocket.send(JSON.stringify(data));
         });
         return;
@@ -25,30 +36,30 @@ wss.on("connection", (ws) => {
     if (data.type == "createLobby") {
       try {
         const userId = uuid();
-        const lobbyId = userId;
+        const sessionId = userId;
         const connection = {
           type: "initLobby",
-          lobbyId: lobbyId,
-          userId: lobbyId,
+          sessionId: sessionId,
+          userId: sessionId,
           name: data.name,
         };
 
         const newLobby = [{ websocket: ws, userId: userId, name: data.name }];
-        lobbies[lobbyId] = newLobby;
+        sessions[sessionId] = newLobby;
         ws.send(JSON.stringify(connection));
 
         const userNames = [];
 
-        for (let i = 0; i < lobbies[lobbyId].length; i++) {
+        for (let i = 0; i < sessions[sessionId].length; i++) {
           userNames.push({
-            name: lobbies[lobbyId][i].name,
+            name: sessions[sessionId][i].name,
             color: fancyColors[i],
           });
         }
 
         const userNamesMessage = { type: "newUser", userNames };
 
-        lobbies[lobbyId].forEach((userConnection) => {
+        sessions[sessionId].forEach((userConnection) => {
           userConnection.websocket.send(JSON.stringify(userNamesMessage));
         });
         return;
@@ -59,18 +70,18 @@ wss.on("connection", (ws) => {
 
     if (data.type == "joinLobby") {
       try {
-        const lobbyId = data.lobbyId;
-        if (!lobbies[data.lobbyId]) return;
+        const sessionId = data.sessionId;
+        if (!sessions[data.sessionId]) return;
         const userId = uuid();
         const connection = {
           type: "joinLobby",
-          lobbyId: lobbyId,
+          sessionId: sessionId,
           userId: userId,
           name: data.name,
         };
         ws.send(JSON.stringify(connection));
 
-        lobbies[data.lobbyId].push({
+        sessions[data.sessionId].push({
           websocket: ws,
           userID: userId,
           name: data.name,
@@ -78,15 +89,15 @@ wss.on("connection", (ws) => {
 
         const userNames = [];
 
-        for (let i = 0; i < lobbies[data.lobbyId].length; i++) {
+        for (let i = 0; i < sessions[data.sessionId].length; i++) {
           userNames.push({
-            name: lobbies[data.lobbyId][i].name,
+            name: sessions[data.sessionId][i].name,
             color: fancyColors[i],
           });
         }
         const userNamesMessage = { type: "newUser", userNames };
 
-        lobbies[data.lobbyId].forEach((userConnection) => {
+        sessions[data.sessionId].forEach((userConnection) => {
           userConnection.websocket.send(JSON.stringify(userNamesMessage));
         });
       } catch (error) {
@@ -98,16 +109,15 @@ wss.on("connection", (ws) => {
   ws.on("close", () => {
     try {
       let tempKey;
-      //iterate over all existing sessions
-      console.log(lobbies);
 
-      for (key in lobbies) {
+      //iterate over all existing sessions
+      for (key in sessions) {
         //iterate over all connection in a sessions
-        for (let i = 0; i < lobbies[key].length; i++) {
+        for (let i = 0; i < sessions[key].length; i++) {
           //find the disconnected websocket and remove this connection from the List
-          if (lobbies[key][i].websocket == ws) {
+          if (sessions[key][i].websocket == ws) {
             tempKey = key;
-            lobbies[key].splice(i, 1);
+            sessions[key].splice(i, 1);
             break;
           }
         }
@@ -115,22 +125,22 @@ wss.on("connection", (ws) => {
 
       const userNames = [];
 
-      for (let i = 0; i < lobbies[tempKey].length; i++) {
+      if (sessions.tempKey == undefined) return;
+
+      for (let i = 0; i < sessions[tempKey].length; i++) {
         userNames.push({
-          name: lobbies[tempKey][i].name,
+          name: sessions[tempKey][i].name,
           color: fancyColors[i],
         });
       }
       const userNamesMessage = { type: "newUser", userNames };
 
-      console.log(userNamesMessage);
-
-      lobbies[tempKey].forEach((userConnection) => {
+      sessions[tempKey].forEach((userConnection) => {
         userConnection.websocket.send(JSON.stringify(userNamesMessage));
       });
 
-      if (lobbies[key].length == 0) {
-        delete lobbies[key];
+      if (sessions[key].length == 0) {
+        delete sessions[key];
       }
     } catch (error) {
       console.log(error);

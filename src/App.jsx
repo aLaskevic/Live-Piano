@@ -1,4 +1,4 @@
-import Welcome from "./Welcome/welcome";
+import Welcome from "./Home/Home";
 function App() {
   return (
     <div>

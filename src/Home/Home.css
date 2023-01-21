@@ -113,24 +113,3 @@ button {
   margin-right: auto;
   margin-top: 1.3vh;
 }
-
-.user-list {
-  float: right;
-  margin-right: 0.9vh;
-}
-
-.user-list > div {
-  border-radius: 20vh;
-  cursor: pointer;
-  text-align: center;
-  color: white;
-  background-color: #df622c;
-  width: 2.8vh;
-  font-size: 2vh;
-  padding: 1vh;
-  margin-top: 0.8vh;
-}
-
-.user-list > div:hover {
-  background-color: #c45728;
-}

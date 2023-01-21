@@ -1,23 +1,10 @@
 import { useState } from "react";
 import React from "react";
-import ws from "../../wsClient/socket";
-import "./createlobby.css";
+import "./CreateSession.css";
 
 function cLobby(props) {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-
-  ws.addEventListener("message", (message) => {
-    const data = JSON.parse(message.data);
-    if (data.type == "initLobby") {
-      console.log(data);
-      props.connection(data);
-    }
-
-    if (data.type == "newUser") {
-      props.setUserList(data.userNames);
-    }
-  });
 
   function createLobby(e) {
     e.preventDefault();
@@ -26,14 +13,14 @@ function cLobby(props) {
       return;
     }
 
-    if (ws.readyState != 1) {
+    if (props.socket.readyState != 1) {
       setError("Connection couldn't establish!");
       return;
     }
 
     const connection = { type: "createLobby", name: name };
 
-    ws.send(JSON.stringify(connection));
+    props.socket.send(JSON.stringify(connection));
 
     setError("");
   }

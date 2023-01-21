@@ -1,12 +1,11 @@
-import "./keyboard.css";
-import ws from "../../wsClient/socket";
+import "./Piano.css";
 
 function Keyboard(props) {
   /*
    * Plays a note as audio
    * note : string -> represents a note as string
    */
-  ws.addEventListener("message", (message) => {
+  props.socket.addEventListener("message", (message) => {
     const data = JSON.parse(message.data);
     let color;
     if (data.type == "playNote") {
@@ -31,24 +30,25 @@ function Keyboard(props) {
   });
 
   function playNote(wnote) {
-    if (ws.readyState == 1)
-      ws.send(
+    if (props.socket.readyState == 1)
+      props.socket.send(
         JSON.stringify({
           type: "playNote",
           note: wnote,
           name: props.connection.name,
-          lobbyId: props.connection.lobbyId,
+          sessionId: props.connection.sessionId,
         })
       );
   }
 
   function stopNote(wnote) {
-    if (ws.readyState == 1)
-      ws.send(
+    if (props.socket.readyState == 1)
+      props.socket.send(
         JSON.stringify({
           type: "stopNote",
           note: wnote,
-          lobbyId: props.connection.lobbyId,
+          name: props.connection.name,
+          sessionId: props.connection.sessionId,
         })
       );
   }
