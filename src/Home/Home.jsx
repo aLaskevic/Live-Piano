@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 function welcome() {
-  //const host = "wss://livepiano.onrender.com"
-  const host = "ws://localhost:8083";
+  const host = "wss://livepiano.onrender.com";
+  //const host = "ws://localhost:8083";
   const [connection, setConnection] = useState();
   const [isCreate, setIsCreate] = useState(true);
   const [userList, setUserList] = useState([]);
