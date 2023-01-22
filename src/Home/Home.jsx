@@ -9,13 +9,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 function welcome() {
+  const host = "wss://livepiano.onrender.com";
   const [connection, setConnection] = useState();
   const [isCreate, setIsCreate] = useState(true);
   const [userList, setUserList] = useState([]);
-  const [socket, setSocket] = useState(new WebSocket("ws://localhost:8083"));
+  const [socket, setSocket] = useState(new WebSocket(host));
 
   useEffect(() => {
-    if (!socket) setSocket(new WebSocket("ws://localhost:8083"));
+    if (!socket) setSocket(new WebSocket(host));
 
     socket.onopen = () => console.log("Connection established!");
     socket.onmessage = (message) => {
