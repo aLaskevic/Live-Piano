@@ -11,6 +11,11 @@
   border-radius: 24vh;
   color: white;
   cursor: pointer;
+  transition: scale 0.3s;
+}
+
+.user-icon:hover {
+  scale: 1.09;
 }
 
 .user-menu {
@@ -32,4 +37,19 @@
 
 .user-menu > .user-menu-entry:hover {
   background-color: #c7c7c7;
+}
+
+.kick {
+  cursor: pointer;
+  width: 2.5vh;
+  padding: 1vh;
+  border-radius: 14vh;
+  text-align: center;
+  border: none;
+  background-color: #ff2727;
+  transition: background-color 0.3s;
+}
+
+.kick:hover {
+  background-color: #d32727;
 }

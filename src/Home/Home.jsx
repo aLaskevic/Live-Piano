@@ -9,15 +9,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 
 function welcome() {
-  const host = "wss://livepiano.onrender.com";
+  //const host = "wss://livepiano.onrender.com"
+  const host = "ws://localhost:8083";
   const [connection, setConnection] = useState();
   const [isCreate, setIsCreate] = useState(true);
   const [userList, setUserList] = useState([]);
-  const [socket, setSocket] = useState(new WebSocket(host));
+  const [socket, setSocket] = useState(null);
 
+  if (socket == null) setSocket(new WebSocket("ws://localhost:8083"));
   useEffect(() => {
-    if (!socket) setSocket(new WebSocket(host));
-
     socket.onopen = () => console.log("Connection established!");
     socket.onmessage = (message) => {
       const data = JSON.parse(message.data);
@@ -29,9 +29,33 @@ function welcome() {
 
       if (data.type == "newUser" || data.type == "quitUser") {
         setUserList(data.userNames);
+        console.log("Dateien beim neuen User: ", data.userNames, userList);
+      }
+
+      if (data.type == "playNote") {
+        let color;
+
+        for (let i = 0; i < userList.length; i++) {
+          if (userList[i].name == data.name) {
+            color = userList[i].color;
+          }
+        }
+        document.getElementById(data.note).style.backgroundColor = color;
+        const path = "/notes/" + data.note + ".mp3";
+        var audio = new Audio(path);
+        audio.play();
+        console.log(userList);
+      }
+
+      if (data.type == "stopNote") {
+        const button = document.getElementById(data.note);
+        if (button.classList[0] == "white")
+          document.getElementById(data.note).style.backgroundColor = "white";
+        if (button.classList[0] == "black")
+          document.getElementById(data.note).style.backgroundColor = "black";
       }
     };
-  }, []);
+  }, [userList, connection, socket]);
   return (
     <>
       {connection && (

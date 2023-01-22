@@ -8,7 +8,14 @@ const port = 3000;
 const wss = new WebSocket.Server({ port: 8083 });
 
 const sessions = {};
-const fancyColors = ["#6ff542", "#d442f5"];
+const fancyColors = [
+  "#6ff542",
+  "#d442f5",
+  "#6ff542",
+  "#d442f5",
+  "#6ff542",
+  "#d442f5",
+];
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -22,6 +29,7 @@ wss.on("connection", (ws) => {
   ws.on("message", (buffer) => {
     const messageString = buffer.toString();
     const data = JSON.parse(messageString);
+    console.log(data);
     if (data.type == "playNote" || data.type == "stopNote") {
       try {
         sessions[data.sessionId].forEach((connection) => {
@@ -122,10 +130,9 @@ wss.on("connection", (ws) => {
           }
         }
       }
-
       const userNames = [];
 
-      if (sessions.tempKey == undefined) return;
+      if (sessions[tempKey] == undefined) return;
 
       for (let i = 0; i < sessions[tempKey].length; i++) {
         userNames.push({
@@ -133,8 +140,8 @@ wss.on("connection", (ws) => {
           color: fancyColors[i],
         });
       }
-      const userNamesMessage = { type: "newUser", userNames };
-
+      const userNamesMessage = { type: "quitUser", userNames };
+      console.log("User quitted: ", userNamesMessage);
       sessions[tempKey].forEach((userConnection) => {
         userConnection.websocket.send(JSON.stringify(userNamesMessage));
       });
