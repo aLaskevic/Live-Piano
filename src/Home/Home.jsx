@@ -16,7 +16,7 @@ function welcome() {
   const [userList, setUserList] = useState([]);
   const [socket, setSocket] = useState(null);
 
-  if (socket == null) setSocket(new WebSocket("ws://localhost:8083"));
+  if (socket == null) setSocket(new WebSocket(host));
   useEffect(() => {
     socket.onopen = () => console.log("Connection established!");
     socket.onmessage = (message) => {
