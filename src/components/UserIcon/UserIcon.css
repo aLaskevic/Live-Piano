@@ -1,42 +1,35 @@
-* {
-  border: 1px solid;
-}
-.user-list {
-  position: relative;
-  margin-right: 0.9vh;
-  float: right;
-}
-
-.user-list > div {
+.user {
   display: flex;
+  float: right;
   align-items: center;
 }
 
-.user-list-icon {
-  border-radius: 20vh;
-  cursor: pointer;
+.user-icon {
+  width: 2.4vh;
+  padding: 1vh;
   text-align: center;
+  border-radius: 24vh;
   color: white;
-  background-color: #df622c;
-  width: 2.8vh;
-  font-size: 2vh;
-  padding: 1vh;
-  margin-top: 0.8vh;
+  cursor: pointer;
 }
 
-.user-list-icon:hover {
-  scale: 1.03;
-}
-.test {
-  float: right;
+.user-menu {
+  display: flex;
+  gap: 1vh;
+  margin-right: 1.3vh;
 }
 
-.user-list-menu {
-  display: inline;
-  border: 0.3vh solid;
-  border-radius: 0.5vh;
-  margin-right: 1vh;
-  margin-top: 0.5vh;
-  font-size: 2vh;
+.user-menu > .user-menu-entry {
+  cursor: pointer;
+  width: 2.5vh;
   padding: 1vh;
+  border-radius: 14vh;
+  text-align: center;
+  border: none;
+  background-color: #e9e9e9;
+  transition: background-color 0.3s;
+}
+
+.user-menu > .user-menu-entry:hover {
+  background-color: #c7c7c7;
 }

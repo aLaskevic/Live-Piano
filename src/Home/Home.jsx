@@ -43,7 +43,13 @@ function welcome() {
           </div>
           <br></br>
           {userList.map((user) => {
-            return <UserIcon user={user}></UserIcon>;
+            return (
+              <>
+                <div className="block">
+                  <UserIcon user={user} connection={connection}></UserIcon>
+                </div>
+              </>
+            );
           })}
         </div>
       )}
