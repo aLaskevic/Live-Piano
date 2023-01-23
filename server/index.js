@@ -65,7 +65,11 @@ wss.on("connection", (ws) => {
           });
         }
 
-        const userNamesMessage = { type: "newUser", userNames };
+        const userNamesMessage = {
+          type: "newUser",
+          user: data.name,
+          userNames,
+        };
 
         sessions[sessionId].forEach((userConnection) => {
           userConnection.websocket.send(JSON.stringify(userNamesMessage));
@@ -103,7 +107,11 @@ wss.on("connection", (ws) => {
             color: fancyColors[i],
           });
         }
-        const userNamesMessage = { type: "newUser", userNames };
+        const userNamesMessage = {
+          type: "newUser",
+          user: data.name,
+          userNames,
+        };
 
         sessions[data.sessionId].forEach((userConnection) => {
           userConnection.websocket.send(JSON.stringify(userNamesMessage));
@@ -117,6 +125,8 @@ wss.on("connection", (ws) => {
   ws.on("close", () => {
     try {
       let tempKey;
+      const userNames = [];
+      let quittedUser;
 
       //iterate over all existing sessions
       for (key in sessions) {
@@ -125,12 +135,12 @@ wss.on("connection", (ws) => {
           //find the disconnected websocket and remove this connection from the List
           if (sessions[key][i].websocket == ws) {
             tempKey = key;
+            quittedUser = sessions[tempKey][i].name;
             sessions[key].splice(i, 1);
             break;
           }
         }
       }
-      const userNames = [];
 
       if (sessions[tempKey] == undefined) return;
 
@@ -140,7 +150,11 @@ wss.on("connection", (ws) => {
           color: fancyColors[i],
         });
       }
-      const userNamesMessage = { type: "quitUser", userNames };
+      const userNamesMessage = {
+        type: "quitUser",
+        user: quittedUser,
+        userNames,
+      };
       console.log("User quitted: ", userNamesMessage);
       sessions[tempKey].forEach((userConnection) => {
         userConnection.websocket.send(JSON.stringify(userNamesMessage));

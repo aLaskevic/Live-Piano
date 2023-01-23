@@ -2,8 +2,6 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
-
 import "./UserIcon.css";
 
 export default function UserIcon(props) {
@@ -25,10 +23,6 @@ export default function UserIcon(props) {
           )}
           <FontAwesomeIcon
             className="user-menu-entry"
-            icon={faGear}
-          ></FontAwesomeIcon>
-          <FontAwesomeIcon
-            className="user-menu-entry"
             icon={faVolumeXmark}
           ></FontAwesomeIcon>
         </div>
@@ -36,7 +30,7 @@ export default function UserIcon(props) {
         ""
       )}
       <div className="user-icon" style={{ backgroundColor: props.user.color }}>
-        {props.user.name.at(1).toUpperCase()}
+        {props.user.name.at(0).toUpperCase()}
       </div>
     </div>
   );

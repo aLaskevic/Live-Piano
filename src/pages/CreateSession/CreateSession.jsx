@@ -1,10 +1,11 @@
 import { useState } from "react";
 import React from "react";
 import "./CreateSession.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function cLobby(props) {
   const [name, setName] = useState("");
-  const [error, setError] = useState("");
 
   function createLobby(e) {
     e.preventDefault();
@@ -21,8 +22,6 @@ function cLobby(props) {
     const connection = { type: "createLobby", name: name };
 
     props.socket.send(JSON.stringify(connection));
-
-    setError("");
   }
 
   return (
@@ -44,7 +43,6 @@ function cLobby(props) {
                 setName(e.target.value);
               }}
             ></input>
-            <div className="error">{error}</div>
             <button className="btn btn-primary" onClick={createLobby}>
               Create session
             </button>
