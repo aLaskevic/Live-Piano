@@ -10,12 +10,10 @@ function cLobby(props) {
   function createLobby(e) {
     e.preventDefault();
     if (name.length < 5) {
-      setError("Name needs atleast 5 Letters!");
       return;
     }
 
     if (props.socket.readyState != 1) {
-      setError("Connection couldn't establish!");
       return;
     }
 

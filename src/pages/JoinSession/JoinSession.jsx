@@ -13,14 +13,11 @@ function jLobby(props) {
     e.preventDefault();
 
     if (props.socket.readyState != 1) {
-      setError("Es konnte keine Verbindung hergestellt werden!");
       return;
     }
 
     const connection = { type: "joinLobby", sessionId: id, name: name };
     props.socket.send(JSON.stringify(connection));
-
-    setError("");
   }
 
   return (
