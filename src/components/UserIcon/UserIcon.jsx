@@ -9,7 +9,6 @@ export default function UserIcon(props) {
   const [isOption, setIsOption] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(props.user);
   return (
     <>
       <div
