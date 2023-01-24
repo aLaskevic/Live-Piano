@@ -9,6 +9,7 @@ export default function UserIcon(props) {
   const [isOption, setIsOption] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(props.user);
   return (
     <>
       <div
@@ -18,7 +19,8 @@ export default function UserIcon(props) {
       >
         {isOption ? (
           <div className="user-menu">
-            {props.connection.sessionId == props.connection.userId ? (
+            {props.connection.sessionId == props.connection.userId &&
+            props.connection.name != props.user.name ? (
               <FontAwesomeIcon
                 className="kick"
                 icon={faXmark}
