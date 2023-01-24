@@ -1,10 +1,6 @@
 const { uuid } = require("uuidv4");
 const WebSocket = require("ws");
 
-const express = require("express");
-const app = express();
-const port = 3000;
-
 const wss = new WebSocket.Server({ port: 8083 });
 
 const sessions = {};
@@ -16,14 +12,6 @@ const fancyColors = [
   "#6ff542",
   "#d442f5",
 ];
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
 
 wss.on("connection", (ws) => {
   ws.on("message", (buffer) => {
