@@ -11,8 +11,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Home() {
-  //const host = "wss://livepiano.onrender.com";
-  const host = "ws://localhost:8083";
+  const host = "wss://livepiano.onrender.com";
+  //const host = "ws://localhost:8083";
   const [connection, setConnection] = useState();
   const [isCreate, setIsCreate] = useState(true);
   const [userList, setUserList] = useState([]);
