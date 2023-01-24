@@ -1,6 +1,10 @@
 const { uuid } = require("uuidv4");
 const WebSocket = require("ws");
 
+const express = require("express");
+const app = express();
+const port = 3000;
+
 const wss = new WebSocket.Server({ port: 8083 });
 
 const sessions = {};
