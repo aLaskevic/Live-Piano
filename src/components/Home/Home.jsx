@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import "./Home.css";
-import Keyboard from "../components/Piano/Piano";
-import CreateLobby from "../pages/CreateSession/CreateSession";
-import UserIcon from "../components/UserIcon/UserIcon";
-import JoinLobby from "../pages/JoinSession/JoinSession";
+import Keyboard from "../Piano/Piano";
+import CreateLobby from "../../pages/CreateSession/CreateSession";
+import UserIcon from "../UserIcon/UserIcon";
+import JoinLobby from "../../pages/JoinSession/JoinSession";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Home() {
-  const host = "wss://livepiano.onrender.com";
-  //const host = "ws://localhost:8083";
+  //const host = "wss://livepiano.onrender.com";
+  const host = "ws://localhost:8083";
   const [connection, setConnection] = useState();
   const [isCreate, setIsCreate] = useState(true);
   const [userList, setUserList] = useState([]);

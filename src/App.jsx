@@ -1,4 +1,4 @@
-import Welcome from "./Home/Home";
+import Welcome from "./components/Home/Home";
 function App() {
   return (
     <div>
