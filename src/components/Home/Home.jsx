@@ -9,14 +9,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import KickedDialog from "../KickedDialog/KickedDialog";
 
 function Home() {
-  const host = "wss://livepiano.onrender.com";
-  //const host = "ws://localhost:8083";
+  //const host = "wss://livepiano.onrender.com";
+  const host = "ws://localhost:8083";
   const [connection, setConnection] = useState();
   const [isCreate, setIsCreate] = useState(true);
   const [userList, setUserList] = useState([]);
   const [socket, setSocket] = useState(null);
+  const [isKicked, setIsKicked] = useState(false);
 
   if (socket == null) setSocket(new WebSocket(host));
   useEffect(() => {
@@ -29,6 +31,10 @@ function Home() {
 
       if (data.type == "joinLobby" || data.type == "initLobby") {
         setConnection(data);
+      }
+
+      if (data.type == "kicked") {
+        setIsKicked(true);
       }
 
       if (data.type == "newUser") {
@@ -84,6 +90,7 @@ function Home() {
   }, [userList, connection, socket]);
   return (
     <>
+      {isKicked ? <KickedDialog></KickedDialog> : ""}
       <ToastContainer
         position="top-left"
         autoClose={5000}
@@ -109,7 +116,11 @@ function Home() {
             return (
               <>
                 <div className="block">
-                  <UserIcon user={user} connection={connection}></UserIcon>
+                  <UserIcon
+                    user={user}
+                    socket={socket}
+                    connection={connection}
+                  ></UserIcon>
                 </div>
               </>
             );

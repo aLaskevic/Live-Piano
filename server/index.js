@@ -24,9 +24,14 @@ wss.on("connection", (ws) => {
     console.log(data);
     if (data.type == "playNote" || data.type == "stopNote") {
       try {
-        sessions[data.sessionId].forEach((connection) => {
-          connection.websocket.send(JSON.stringify(data));
-        });
+        if (
+          sessions[data.sessionId].find((entry) => entry.userId == data.userId)
+        ) {
+          console.log("Gefunden!");
+          sessions[data.sessionId].forEach((connection) => {
+            connection.websocket.send(JSON.stringify(data));
+          });
+        }
         return;
       } catch (error) {
         console.log(error);
@@ -53,6 +58,7 @@ wss.on("connection", (ws) => {
         for (let i = 0; i < sessions[sessionId].length; i++) {
           userNames.push({
             name: sessions[sessionId][i].name,
+            userId: sessions[sessionId][i].userId,
             color: fancyColors[i],
           });
         }
@@ -67,6 +73,46 @@ wss.on("connection", (ws) => {
           userConnection.websocket.send(JSON.stringify(userNamesMessage));
         });
         return;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (data.type == "kickUser") {
+      try {
+        for (let i = 0; i < sessions[data.sessionId].length; i++) {
+          if (sessions[data.sessionId][i].userId == data.userId) {
+            sessions[data.sessionId][i].websocket.send(
+              JSON.stringify({ type: "kicked" })
+            );
+
+            console.log(sessions[data.sessionId]);
+
+            sessions[data.sessionId][i].websocket.close();
+            sessions[data.sessionId].splice(i, 1);
+
+            userNames = [];
+
+            for (let i = 0; i < sessions[data.sessionId].length; i++) {
+              userNames.push({
+                name: sessions[data.sessionId][i].name,
+                userId: sessions[data.sessionId][i].userId,
+                color: fancyColors[i],
+              });
+            }
+            const userNamesMessage = {
+              type: "quitUser",
+              user: data.name,
+              userNames,
+            };
+
+            sessions[data.sessionId].forEach((userConnection) => {
+              userConnection.websocket.send(JSON.stringify(userNamesMessage));
+            });
+
+            break;
+          }
+        }
       } catch (error) {
         console.log(error);
       }
@@ -87,7 +133,7 @@ wss.on("connection", (ws) => {
 
         sessions[data.sessionId].push({
           websocket: ws,
-          userID: userId,
+          userId: userId,
           name: data.name,
         });
 
@@ -96,6 +142,7 @@ wss.on("connection", (ws) => {
         for (let i = 0; i < sessions[data.sessionId].length; i++) {
           userNames.push({
             name: sessions[data.sessionId][i].name,
+            userId: sessions[data.sessionId][i].userId,
             color: fancyColors[i],
           });
         }
@@ -139,6 +186,7 @@ wss.on("connection", (ws) => {
       for (let i = 0; i < sessions[tempKey].length; i++) {
         userNames.push({
           name: sessions[tempKey][i].name,
+          userId: sessions[tempKey][i].userId,
           color: fancyColors[i],
         });
       }

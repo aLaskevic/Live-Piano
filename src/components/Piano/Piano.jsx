@@ -13,6 +13,7 @@ function Keyboard(props) {
           type: "playNote",
           note: wnote,
           name: props.connection.name,
+          userId: props.connection.userId,
           sessionId: props.connection.sessionId,
         })
       );
@@ -25,6 +26,7 @@ function Keyboard(props) {
           type: "stopNote",
           note: wnote,
           name: props.connection.name,
+          userId: props.connection.userId,
           sessionId: props.connection.sessionId,
         })
       );

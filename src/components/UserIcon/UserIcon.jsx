@@ -66,7 +66,17 @@ export default function UserIcon(props) {
             </h3>
             <div className="kick-modal-buttons">
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  console.log(props.user);
+                  props.socket.send(
+                    JSON.stringify({
+                      type: "kickUser",
+                      userId: props.user.userId,
+                      sessionId: props.connection.sessionId,
+                    })
+                  );
+                }}
                 className="kick-modal-buttons-kick"
               >
                 Kick
