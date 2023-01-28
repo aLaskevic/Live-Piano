@@ -19,6 +19,7 @@ function Home() {
   const [userList, setUserList] = useState([]);
   const [socket, setSocket] = useState(null);
   const [isKicked, setIsKicked] = useState(false);
+  const [muteList, setMuteList] = useState([]);
 
   if (socket == null) setSocket(new WebSocket(host));
   useEffect(() => {
@@ -72,10 +73,12 @@ function Home() {
             color = userList[i].color;
           }
         }
+
         document.getElementById(data.note).style.backgroundColor = color;
         const path = "/notes/" + data.note + ".mp3";
         var audio = new Audio(path);
-        audio.play();
+        if (muteList.indexOf(data.userId) == -1) audio.play();
+
         console.log(userList);
       }
 
@@ -87,7 +90,8 @@ function Home() {
           document.getElementById(data.note).style.backgroundColor = "black";
       }
     };
-  }, [userList, connection, socket]);
+  }, [userList, connection, socket, muteList]);
+
   return (
     <>
       {isKicked ? <KickedDialog></KickedDialog> : ""}
@@ -107,7 +111,21 @@ function Home() {
         <div className="room-information">
           <div className="copy-code">
             <span>{connection.sessionId}</span>
-            <div className="copy">
+            <div
+              className="copy"
+              onClick={() => {
+                navigator.clipboard.writeText(connection.sessionId);
+                toast.success(`Session code copied to the clipboard!`, {
+                  position: "top-left",
+                  autoClose: 5000,
+                  hideProgressBar: true,
+                  closeOnClick: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }}
+            >
               <FontAwesomeIcon icon={faCopy}></FontAwesomeIcon>
             </div>
           </div>
@@ -120,6 +138,7 @@ function Home() {
                     user={user}
                     socket={socket}
                     connection={connection}
+                    setMuteList={setMuteList}
                   ></UserIcon>
                 </div>
               </>

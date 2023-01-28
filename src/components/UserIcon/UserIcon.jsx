@@ -34,6 +34,9 @@ export default function UserIcon(props) {
                 icon={faVolumeXmark}
                 onClick={() => {
                   setIsMuted((prev) => !prev);
+                  props.setMuteList((prev) => {
+                    return prev.filter((entry) => entry != props.user.userId);
+                  });
                 }}
               ></FontAwesomeIcon>
             ) : (
@@ -41,6 +44,9 @@ export default function UserIcon(props) {
                 className="user-menu-entry"
                 icon={faVolumeHigh}
                 onClick={() => {
+                  props.setMuteList((prev) => {
+                    return [...prev, props.user.userId];
+                  });
                   setIsMuted((prev) => !prev);
                 }}
               ></FontAwesomeIcon>

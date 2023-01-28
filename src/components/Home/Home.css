@@ -62,10 +62,10 @@
 .copy-code > span {
   width: 30vh;
   color: #414141;
-  background-color: #d9d9d9;
+  background-color: #e7e5e5;
   padding: 1vh;
 }
-.copy-code > .copy {
+.copy {
   display: inline;
   background-color: #25a448;
   color: white;
@@ -79,6 +79,11 @@
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
+}
+
+.copy:hover {
+  background-color: #1a7935;
+  transform: scale(1.95);
 }
 .btn {
   font-size: 2vh;
