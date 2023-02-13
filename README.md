@@ -9,7 +9,7 @@ Live Piano makes it possbile to connect pianists all around the world and let th
 
 
 ### Setup
-If you like to setupt it locally simply run following commands in the root directory.
+If you like to setup it locally simply run following commands in the root directory.
 ##### Web Server
 ```xml
 npm run dev
