@@ -22,5 +22,5 @@ node server/index.js
 ### Features
 - Integrated MIDI Support
 - Interact with players within the same lobby like kick/mute
-- A simple lobby system which is clean itself up.
-- See what player play which sound by easy custom coloring´.
+- A simple and scalable Lobbysystem by detecting and clearing empty rooms
+  ´.
