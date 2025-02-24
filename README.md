@@ -23,4 +23,3 @@ node server/index.js
 - Integrated MIDI Support
 - Interact with players within the same lobby like kick/mute
 - A simple and scalable Lobbysystem by detecting and clearing empty rooms
-  ´.
